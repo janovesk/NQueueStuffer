@@ -55,5 +55,23 @@ namespace NQueueStuffer.UI.View
         {
             lblStatus.Text = message;
         }
+
+        private void QueueStufferView_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        private void QueueStufferView_DragDrop(object sender, DragEventArgs e)
+        {
+            var filenames = e.Data.GetData(DataFormats.FileDrop) as string[];
+            
+            if(filenames != null && filenames.Length > 0)
+            {
+                _controller.GetTypesFromAssembly(filenames[0]);
+            }
+        }
     }
 }

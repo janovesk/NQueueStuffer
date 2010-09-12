@@ -1,5 +1,35 @@
-Usage instructions:
+What is this?
 
-1. Compile NQueueStuffer.sln
-2. Set NQueueStuffer.UI as startup
-3. Run
+NQueueStuffer is a Windows Forms tool for generating and stuffing NServicebus 
+messages on a queue. It lets the user choose an assembly and a messagetype that 
+implements NServicebus.IMessage and generates a template message based on the 
+messagetype. The user can then edit and stuff this message directly to a 
+MSMQ queue. 
+
+The use case for it is the times when you just need to quickly insert a known 
+message into a queue and don't want the hassle of having to making a specific 
+application or unit test to make it happen.  
+
+NQueueStuffer was started by Jan Ove Skogheim Olsen. 
+Feel free to drop me a message(bugs, requests etc) at janovesk@pvv.org.
+
+Installation instructions
+1. Get source: git clone git://github.com/janovesk/NQueueStuffer.git
+2. Compile NQueueStuffer.sln, either msbuild or Visual Studio 2010.
+
+Usage instructions
+1. Run NQueueStuffer\NQueueStuffer.UI\bin\Debug\NQueueStuffer.UI.exe
+2. Open an assembly with types implementing NServiceBus.IMessage
+	(both interface and concrete types are supported) by either
+ - Pressing the "Load assembly with messagetypes" button
+ - Drag an assembly onto the application from Windows Explorer
+3. Choose a messagetype from the populated list.
+4. Edit the generated message template how you wish.
+5. Press "Stuff message in queue" to stuff message into a queue.
+
+PS: You can change the default queue name by setting the defaultQueueName appsetting.
+
+Known issues:
+ - Need more robust loading of assemblies.
+ - No support for loading message assemblies compiled for NET 4.0
+
