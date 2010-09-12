@@ -1,0 +1,5 @@
+Usage instructions:
+
+1. Compile NQueueStuffer.sln
+2. Set NQueueStuffer.UI as startup
+3. Run
