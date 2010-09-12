@@ -731,19 +731,6 @@
       <typeparam name="M">
       </typeparam>
     </member>
-    <member name="T:NServiceBus.Saga.IHandleSagaNotFound">
-      <summary>
-            Implementors will be invoked when a message arrives that should have been processed
-            by a saga, but no existing saga was found. This does not include the scenario when
-            a saga will be created for the given message type.
-            </summary>
-    </member>
-    <member name="M:NServiceBus.Saga.IHandleSagaNotFound.Handle(NServiceBus.IMessage)">
-      <summary>
-            Implementors will implement this method, likely using an injected IBus
-            to send responses to the client who sent the message.
-            </summary>
-    </member>
     <member name="T:NServiceBus.Saga.ITimeoutable">
       <summary>
             Interface used by the saga infrastructure for notifying sagas about a timeout.

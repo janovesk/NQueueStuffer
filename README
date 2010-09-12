@@ -31,5 +31,3 @@ PS: You can change the default queue name by setting the defaultQueueName appset
 
 Known issues:
  - Need more robust loading of assemblies.
- - No support for loading message assemblies compiled for NET 4.0
-
