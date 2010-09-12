@@ -46,13 +46,13 @@
             this.tbMessage.Location = new System.Drawing.Point(26, 260);
             this.tbMessage.Multiline = true;
             this.tbMessage.Name = "tbMessage";
-            this.tbMessage.Size = new System.Drawing.Size(484, 292);
+            this.tbMessage.Size = new System.Drawing.Size(426, 314);
             this.tbMessage.TabIndex = 0;
             // 
             // btnSend
             // 
-            this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSend.Location = new System.Drawing.Point(212, 568);
+            this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSend.Location = new System.Drawing.Point(307, 591);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(145, 23);
             this.btnSend.TabIndex = 1;
@@ -62,10 +62,11 @@
             // 
             // tbQueueName
             // 
-            this.tbQueueName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.tbQueueName.Location = new System.Drawing.Point(96, 571);
+            this.tbQueueName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbQueueName.Location = new System.Drawing.Point(96, 593);
             this.tbQueueName.Name = "tbQueueName";
-            this.tbQueueName.Size = new System.Drawing.Size(100, 20);
+            this.tbQueueName.Size = new System.Drawing.Size(195, 20);
             this.tbQueueName.TabIndex = 2;
             this.tbQueueName.Text = "error";
             // 
@@ -73,11 +74,11 @@
             // 
             this.lblQueueName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblQueueName.AutoSize = true;
-            this.lblQueueName.Location = new System.Drawing.Point(26, 574);
+            this.lblQueueName.Location = new System.Drawing.Point(26, 596);
             this.lblQueueName.Name = "lblQueueName";
-            this.lblQueueName.Size = new System.Drawing.Size(65, 13);
+            this.lblQueueName.Size = new System.Drawing.Size(68, 13);
             this.lblQueueName.TabIndex = 3;
-            this.lblQueueName.Text = "Queuename";
+            this.lblQueueName.Text = "Queue name";
             // 
             // btnLoad
             // 
@@ -100,7 +101,8 @@
             this.listBoxMessageTypes.FormattingEnabled = true;
             this.listBoxMessageTypes.Location = new System.Drawing.Point(29, 52);
             this.listBoxMessageTypes.Name = "listBoxMessageTypes";
-            this.listBoxMessageTypes.Size = new System.Drawing.Size(481, 186);
+            this.listBoxMessageTypes.Size = new System.Drawing.Size(423, 186);
+            this.listBoxMessageTypes.Sorted = true;
             this.listBoxMessageTypes.TabIndex = 5;
             this.listBoxMessageTypes.SelectedIndexChanged += new System.EventHandler(this.listBoxMessageTypes_SelectedIndexChanged);
             // 
@@ -108,7 +110,7 @@
             // 
             this.lblStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(26, 611);
+            this.lblStatus.Location = new System.Drawing.Point(26, 633);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(0, 13);
             this.lblStatus.TabIndex = 6;
@@ -118,7 +120,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(536, 633);
+            this.ClientSize = new System.Drawing.Size(478, 655);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.listBoxMessageTypes);
             this.Controls.Add(this.btnLoad);
