@@ -12,6 +12,7 @@ using log4net;
 using NServiceBus;
 using NServiceBus.Encryption;
 using NServiceBus.MessageInterfaces;
+using NServiceBus.Serialization;
 using NServiceBus.Utils.Reflection;
 
 namespace NQueueStuffer.Core.NServicebus

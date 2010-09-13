@@ -37,7 +37,7 @@ namespace NQueueStuffer.UI.Controller
             _messageStuffer = new MessageStuffer(messageType);
             _visualSerializer = new VisualSerializer(messageType);
             
-            var typeSerializedToString = _visualSerializer.GetSerializedType();
+            var typeSerializedToString = _visualSerializer.GetSerializedType(true);
             _view.ShowSerializedMessageType(typeSerializedToString, messageType);
         }
 

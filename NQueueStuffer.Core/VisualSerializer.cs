@@ -1,41 +1,52 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Castle.MicroKernel.Registration;
-using Castle.Windsor;
 using NQueueStuffer.Core.NServicebus;
 using NServiceBus;
 using NServiceBus.MessageInterfaces;
+using NServiceBus.MessageInterfaces.MessageMapper.Reflection;
+using NServiceBus.Serialization;
 
 namespace NQueueStuffer.Core
 {
     public class VisualSerializer
     {
-        private readonly Type _messageType;
-        private IWindsorContainer _container;
-        private IBus _bus;
-        private IMessageMapper _messageMapper;
-        private IMessageSerializer _xmlSerializer;
+        private readonly XMLMessageSerializer _xmlSerializer;
+        private readonly MessageInstanceFactory _messageInstanceFactory;
 
         public VisualSerializer(Type messageType)
         {
-            _messageType = messageType;
-            _container = CreateContainerWithBus(messageType);
-            _bus = _container.Resolve<IBus>();
-            _messageMapper = _container.Resolve<IMessageMapper>();
-            _xmlSerializer = _container.Resolve<IMessageSerializer>();
+            var mapper  = CreateMapper(new []{messageType});
+            _xmlSerializer = CreateSerializer(mapper, messageType);
+            _messageInstanceFactory = new MessageInstanceFactory(mapper, messageType);
         }
 
-        public string GetSerializedType()
+        private static XMLMessageSerializer CreateSerializer(IMessageMapper mapper, Type type)
         {
-            var concreteType = _messageMapper.GetMappedTypeFor(_messageType);
-            var concreteInstance = _bus.CreateInstance(concreteType);
+            var xmlSerializer = new XMLMessageSerializer();
+            xmlSerializer.MessageMapper = mapper;
+            xmlSerializer.MessageTypes = new List<Type> {type};
+            return xmlSerializer;
+        }
+
+        private static IMessageMapper CreateMapper(IEnumerable<Type> types)
+        {
+            var mapper = new MessageMapper();
+            mapper.Initialize(types);
+            return mapper;
+        }
+
+        public string GetSerializedType(bool useReasonableDefaults)
+        {
+            var concreteInstance = _messageInstanceFactory.GetConcreteInstance(useReasonableDefaults);
 
             string serializedType = SerializeToString(_xmlSerializer, concreteInstance as IMessage);
 
             return serializedType.Replace("\n", Environment.NewLine);
         }
-
+       
         private static string SerializeToString(IMessageSerializer xmlSerializer, IMessage concreteInstance)
         {
             using (var ms = new MemoryStream())
@@ -46,30 +57,6 @@ namespace NQueueStuffer.Core
                 var serializedType = sw.ReadToEnd();
                 return serializedType;
             }
-        }
-
-        private static IWindsorContainer CreateContainerWithBus(Type messageType)
-        {
-            var container = new WindsorContainer();
-            container.Register(Component.For<IMessageSerializer>().ImplementedBy<XMLMessageSerializer>());
-            NServiceBus.Configure.With(new Type[] { messageType })
-               .CastleWindsorBuilder(container)
-               .XmlSerializer()
-               .MsmqTransport()
-                   .IsTransactional(true)
-                   .PurgeOnStartup(false)
-               .UnicastBus()
-                   .ImpersonateSender(false)
-                   .CreateBus()
-               .Start();
-
-            var serializer = container.Resolve<IMessageSerializer>();
-            var nserviceBusSerializer = container.Resolve<NServiceBus.Serialization.IMessageSerializer>();
-            
-            (serializer as XMLMessageSerializer).MessageTypes =
-                (nserviceBusSerializer as NServiceBus.Serializers.XML.MessageSerializer).MessageTypes;
-
-            return container;
         }
 
         public IMessage[] GetDeserializedType(string serializedMessageToStuff)
