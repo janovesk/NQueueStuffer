@@ -11,7 +11,7 @@ message into a queue and don't want the hassle of having to making a specific
 application or unit test to make it happen.  
 
 NQueueStuffer was started by Jan Ove Skogheim Olsen. 
-Feel free to drop me a message(bugs, requests etc) at janovesk(a)pvv.org.
+Feel free to drop me a message(bugs, requests etc) at janovesk(a)pvv.org or twitter: janovesk
 
 Installation instructions
 1. Get source: git clone git://github.com/janovesk/NQueueStuffer.git
