@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using NServiceBus;
@@ -9,14 +10,30 @@ namespace NQueueStuffer.Core
     {
         public Type[] GetTypesFromAssembly(string assemblyFilename)
         {
-            return GetTypesFromAssembly(Assembly.LoadFile(assemblyFilename));
+            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(AssemblyResolve);
+            var assembly = Assembly.LoadFile(assemblyFilename);
+            var types = GetMessageTypesFromAssembly(assembly);
+            AppDomain.CurrentDomain.AssemblyResolve -= new ResolveEventHandler(AssemblyResolve);
+
+            return types;
         }
 
-        public Type[] GetTypesFromAssembly(Assembly assembly)
+        System.Reflection.Assembly AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            if (args.Name.Contains("mscorlib"))
+                return null;
+
+            var assemblyDirectory = Path.GetDirectoryName(args.RequestingAssembly.Location);
+            var assemblyName = args.Name.Split(new string[] { "," }, StringSplitOptions.None)[0];
+            var assemblyFilePath = Path.Combine(assemblyDirectory, assemblyName + ".dll");
+            var assembly = Assembly.LoadFrom(Path.Combine(assemblyFilePath));
+            return assembly;
+        }
+
+        private Type[] GetMessageTypesFromAssembly(Assembly assembly)
         {
             var messageTypes = assembly.GetTypes().Where(type => typeof(IMessage).IsAssignableFrom(type));
             return messageTypes.ToArray();
         }
-
     }
 }
