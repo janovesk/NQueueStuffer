@@ -48,7 +48,6 @@
             this.tbMessage.Name = "tbMessage";
             this.tbMessage.Size = new System.Drawing.Size(426, 314);
             this.tbMessage.TabIndex = 0;
-            this.tbMessage.WordWrap = false;
             // 
             // btnSend
             // 
