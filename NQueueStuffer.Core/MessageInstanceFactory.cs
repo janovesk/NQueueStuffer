@@ -28,6 +28,8 @@ namespace NQueueStuffer.Core
         private static void SetReasonableDefaults(object instance, Type type)
         {
             const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            var types = type.GetProperties(bindingFlags);
+            var fields = type.GetFields(bindingFlags);
 
             foreach (PropertyInfo prop in type.GetProperties(bindingFlags).Where(p => p.DeclaringType == type))
             {
@@ -45,6 +47,12 @@ namespace NQueueStuffer.Core
             if (type.BaseType != null)
             {
                 SetReasonableDefaults(instance, type.BaseType);
+            }
+
+            var interfaces = type.GetInterfaces();
+            foreach (var baseInterface in interfaces)
+            {
+                SetReasonableDefaults(instance, baseInterface);
             }
         }
     }

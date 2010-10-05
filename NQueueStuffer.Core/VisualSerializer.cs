@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Xml;
 using NQueueStuffer.Core.NServicebus;
 using NServiceBus;
 using NServiceBus.MessageInterfaces;
@@ -42,20 +43,19 @@ namespace NQueueStuffer.Core
         {
             var concreteInstance = _messageInstanceFactory.GetConcreteInstance(useReasonableDefaults);
 
-            string serializedType = SerializeToString(_xmlSerializer, concreteInstance as IMessage);
-
-            return serializedType.Replace("\n", Environment.NewLine);
+            var rawXml = GetRawSerializedType(concreteInstance as IMessage);
+            var indentedXml = GetIndentedXML(rawXml);
+            return indentedXml;
         }
-       
-        private static string SerializeToString(IMessageSerializer xmlSerializer, IMessage concreteInstance)
+
+        private string GetRawSerializedType(IMessage mesasge)
         {
             using (var ms = new MemoryStream())
             {
-                xmlSerializer.Serialize(new[] {concreteInstance}, ms);
+                _xmlSerializer.Serialize(new[] { mesasge }, ms);
                 ms.Seek(0, SeekOrigin.Begin);
-                var sw = new StreamReader(ms, Encoding.UTF8);
-                var serializedType = sw.ReadToEnd();
-                return serializedType;
+                var sr = new StreamReader(ms);
+                return sr.ReadToEnd();
             }
         }
 
@@ -68,6 +68,27 @@ namespace NQueueStuffer.Core
                 var messages = _xmlSerializer.Deserialize(ms);
                 return messages;
             }
+        }
+
+        private static string GetIndentedXML(string rawXml)
+        {
+            var doc = new XmlDocument();
+            doc.LoadXml(rawXml);
+           
+            var settings = new XmlWriterSettings
+            {
+                Encoding = Encoding.UTF8,
+                Indent = true,
+                IndentChars = "    ",
+                NewLineChars = "\r\n",
+                NewLineHandling = NewLineHandling.Replace
+            };
+
+            var sb = new StringBuilder();
+            var writer = XmlWriter.Create(sb, settings);
+            doc.WriteContentTo(writer);
+            writer.Close();
+            return sb.ToString();
         }
     }
 }
