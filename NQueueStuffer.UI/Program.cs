@@ -18,10 +18,7 @@ namespace NQueueStuffer.UI
             Application.SetCompatibleTextRenderingDefault(false);
             
             var container = SetupContainer();
-            var controller = container.Resolve<IQueueStufferController>();
-
-            var defaultQueueName = ConfigurationManager.AppSettings["defaultQueueName"];
-            Application.Run(new QueueStufferView(controller, defaultQueueName));
+            Application.Run(new MdiForm(container));
         }
 
         private static IWindsorContainer SetupContainer()

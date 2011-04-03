@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using NQueueStuffer.Core;
 using NQueueStuffer.UI.View;
 
@@ -25,10 +26,11 @@ namespace NQueueStuffer.UI.Controller
             _view.SetStatus("No assembly with messagetypes has been loaded yet.");
         }
 
-        public void GetTypesFromAssembly(string assemblyFilename)
+        public void GetTypesFromAssembly(string assemblyFilename, string selectedtypeName = null)
         {
             var types = _assemblyFetcher.GetTypesFromAssembly(assemblyFilename);
-            _view.SetMessagesTypes(types);
+        	var selected = types.FirstOrDefault(t => t.Name == selectedtypeName);
+            _view.SetMessagesTypes(types, selected);
         }
 
         public void MessageTypeSelectionChanged(Type messageType)

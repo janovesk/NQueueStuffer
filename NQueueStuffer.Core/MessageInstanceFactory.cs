@@ -31,7 +31,7 @@ namespace NQueueStuffer.Core
 
             foreach (PropertyInfo prop in type.GetProperties(bindingFlags).Where(p => p.DeclaringType == type))
             {
-                if(prop.PropertyType == typeof(DateTime))
+                if(prop.PropertyType == typeof(DateTime) && prop.CanWrite)
                     prop.SetValue(instance, DateTime.Now, null);
                 
             }

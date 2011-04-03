@@ -32,7 +32,7 @@ namespace NQueueStuffer.Core
 
         private Type[] GetMessageTypesFromAssembly(Assembly assembly)
         {
-            var messageTypes = assembly.GetTypes().Where(type => typeof(IMessage).IsAssignableFrom(type));
+            var messageTypes = assembly.GetTypes().Where(type => typeof(IMessage).IsAssignableFrom(type) && !type.IsAbstract);
             return messageTypes.ToArray();
         }
     }

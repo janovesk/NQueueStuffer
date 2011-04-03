@@ -60,9 +60,17 @@
   <ItemGroup>
     <Compile Include="Controller\IQueueStufferController.cs" />
     <Compile Include="Controller\QueueStufferController.cs" />
+    <Compile Include="NQSLoader.cs" />
+    <Compile Include="NqsSettingItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\IQueueStufferView.cs" />
+    <Compile Include="View\MdiForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\MdiForm.Designer.cs">
+      <DependentUpon>MdiForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\QueueStufferView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,6 +87,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="View\MdiForm.resx">
+      <DependentUpon>MdiForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\QueueStufferView.resx">
       <DependentUpon>QueueStufferView.cs</DependentUpon>
     </EmbeddedResource>

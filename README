@@ -14,20 +14,25 @@ NQueueStuffer was started by Jan Ove Skogheim Olsen.
 Feel free to drop me a message(bugs, requests etc) at janovesk(a)pvv.org or twitter: janovesk
 
 Installation instructions
-1. Get source: git clone git://github.com/janovesk/NQueueStuffer.git
+1. Get source: git clone git://github.com/netspark/NQueueStuffer.git
 2. Compile NQueueStuffer.sln, either msbuild or Visual Studio 2010.
 
 Usage instructions
 1. Run NQueueStuffer\NQueueStuffer.UI\bin\Debug\NQueueStuffer.UI.exe
-2. Open an assembly with types implementing NServiceBus.IMessage
+2. Open an assembly with types implementing NServiceBus.IMessage 
+	by clicking new toolbar button.
 	(both interface and concrete types are supported) by either
- - Pressing the "Load assembly with messagetypes" button
- - Drag an assembly onto the application from Windows Explorer
+	 - Pressing the "Load assembly with messagetypes" button
+	 - Drag an assembly onto the application from Windows Explorer
 3. Choose a messagetype from the populated list.
 4. Edit the generated message template how you wish.
 5. Press "Stuff message in queue" to stuff message into a queue.
+You can repeat steps 2-5 any number of time, each time having new MDI child window opened.
+6. After editing all needed templates you can save them. All Message templates and queue 
+names will be saved into xml file along with assemblies. You will be able to load saved 
+configuration anytime.
 
-PS: You can change the default queue name by setting the defaultQueueName appsetting.
+PS: You can change the default queue name by setting the defaultQueueName appsetting
 
-Known issues:
- - Need more robust loading of assemblies.
+TODO:
+ - Need create batch function to allow batched message stuffing.
