@@ -40,6 +40,7 @@
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+			this.startBatchToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -52,7 +53,8 @@
             this.saveToolStripButton,
             this.toolStripSeparator1,
             this.helpToolStripButton,
-            this.toolStripSeparator2});
+            this.toolStripSeparator2,
+            this.startBatchToolStripButton});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(666, 25);
@@ -105,6 +107,7 @@
 			this.helpToolStripButton.Name = "helpToolStripButton";
 			this.helpToolStripButton.Size = new System.Drawing.Size(23, 22);
 			this.helpToolStripButton.Text = "He&lp";
+			this.helpToolStripButton.Click += new System.EventHandler(this.helpToolStripButton_Click);
 			// 
 			// toolStripSeparator2
 			// 
@@ -129,6 +132,16 @@
 			// 
 			this.lblStatus.Name = "lblStatus";
 			this.lblStatus.Size = new System.Drawing.Size(0, 17);
+			// 
+			// startBatchToolStripButton
+			// 
+			this.startBatchToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.startBatchToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("startBatchToolStripButton.Image")));
+			this.startBatchToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.startBatchToolStripButton.Name = "startBatchToolStripButton";
+			this.startBatchToolStripButton.Size = new System.Drawing.Size(23, 22);
+			this.startBatchToolStripButton.Text = "Start execution of all opened windows in batch.";
+			this.startBatchToolStripButton.Click += new System.EventHandler(this.startBatchToolStripButton_Click);
 			// 
 			// MdiForm
 			// 
@@ -162,5 +175,6 @@
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel lblStatus;
 		private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+		private System.Windows.Forms.ToolStripButton startBatchToolStripButton;
 	}
 }

@@ -12,5 +12,9 @@ namespace NQueueStuffer.UI
 		public string SelectedTypeName { get; set; }
 		public string QueueName { get; set; }
 		public string MessageContent { get; set; }
+
+		internal Type SelectedType { get; set; }
+
+
 	}
 }

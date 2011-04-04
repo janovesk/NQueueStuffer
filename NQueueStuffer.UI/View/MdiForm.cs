@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Castle.Windsor;
+using NQueueStuffer.Core;
 using NQueueStuffer.UI.Controller;
 
 namespace NQueueStuffer.UI.View
@@ -18,12 +19,13 @@ namespace NQueueStuffer.UI.View
 		private readonly IWindsorContainer _container = null;
 		private readonly IList<QueueStufferView> _views = new List<QueueStufferView>();
 		private readonly Font _selectedViewFont = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold);
-		private readonly Font _viewFont = new Font(FontFamily.GenericSansSerif, 9, FontStyle.Regular); 
-
+		private readonly Font _viewFont = new Font(FontFamily.GenericSansSerif, 9, FontStyle.Regular);
+		private HelpView _helpForm;
 		public MdiForm(IWindsorContainer container)
 		{
 			InitializeComponent();
 			_container = container;
+			startBatchToolStripButton.Enabled = false;
 		}
 
 		private void newToolStripButton_Click(object sender, EventArgs e)
@@ -69,7 +71,7 @@ namespace NQueueStuffer.UI.View
 				{
 					try
 					{
-						var controller = _container.Resolve<IQueueStufferController>();
+						var controller = new QueueStufferController(_container.Resolve<IAssemblyFetcher>());//_container.Resolve<IQueueStufferController>();
 						var view = new QueueStufferView(controller, settingItem);
 						AddView(view);
 					}
@@ -124,6 +126,8 @@ namespace NQueueStuffer.UI.View
 			toolStripItem.Click += activateToolStripButton_Click; 
 			toolStrip1.Items.Add(toolStripItem);
 			toolStripItem.PerformClick();
+
+			startBatchToolStripButton.Enabled = _views.Count > 0;
 		}
 
 		private bool _toolStripButtonClickProcessing = false;
@@ -215,6 +219,9 @@ namespace NQueueStuffer.UI.View
 				var index = _views.IndexOf(ActiveMdiChild as QueueStufferView);
 				ActivateToolstripButton((index + 1).ToString());
 			}
+
+			startBatchToolStripButton.Enabled = _views.Count > 0;
+
 		}
 
 		private ToolStripItem FindButtonByText(string text)
@@ -254,6 +261,30 @@ namespace NQueueStuffer.UI.View
 			Message,
 			Warning,
 			Error
+		}
+
+		private void startBatchToolStripButton_Click(object sender, EventArgs e)
+		{
+			var batchList = _views.Select(v => v.SelectedSettings).ToList();
+			using (var form  = new BatchView(batchList))
+			{
+				form.ShowDialog(this);
+			}
+		}
+
+		private void helpToolStripButton_Click(object sender, EventArgs e)
+		{
+			_helpForm = new HelpView();
+			_helpForm.Show(this);
+		}
+
+		protected override void OnClosed(EventArgs e)
+		{
+			if (_helpForm != null && !_helpForm.IsDisposed)
+			{
+				_helpForm.Dispose();
+			}
+			base.OnClosed(e);
 		}
 	}
 }

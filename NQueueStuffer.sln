@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NQueueStuffer.Core", "NQueu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NQueueStuffer.UI", "NQueueStuffer.UI\NQueueStuffer.UI.csproj", "{8384A6E9-BA22-44EC-90DB-80E19A2F8A74}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "NQueueStuffer.Setup", "NQueueStuffer.Setup\NQueueStuffer.Setup.vdproj", "{24B57D38-2C3F-42F8-9637-7234AAC67607}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,12 @@ Global
 		{8384A6E9-BA22-44EC-90DB-80E19A2F8A74}.Release|Mixed Platforms.Build.0 = Release|x86
 		{8384A6E9-BA22-44EC-90DB-80E19A2F8A74}.Release|x86.ActiveCfg = Release|x86
 		{8384A6E9-BA22-44EC-90DB-80E19A2F8A74}.Release|x86.Build.0 = Release|x86
+		{24B57D38-2C3F-42F8-9637-7234AAC67607}.Debug|Any CPU.ActiveCfg = Debug
+		{24B57D38-2C3F-42F8-9637-7234AAC67607}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{24B57D38-2C3F-42F8-9637-7234AAC67607}.Debug|x86.ActiveCfg = Debug
+		{24B57D38-2C3F-42F8-9637-7234AAC67607}.Release|Any CPU.ActiveCfg = Release
+		{24B57D38-2C3F-42F8-9637-7234AAC67607}.Release|Mixed Platforms.ActiveCfg = Release
+		{24B57D38-2C3F-42F8-9637-7234AAC67607}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

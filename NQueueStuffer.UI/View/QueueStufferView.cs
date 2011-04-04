@@ -84,7 +84,8 @@ namespace NQueueStuffer.UI.View
 							AssemblyPath = _assemblyFile,
 							MessageContent = tbMessage.Text,
 							QueueName = tbQueueName.Text,
-							SelectedTypeName = type != null ? type.Name : null
+							SelectedTypeName = type != null ? type.Name : null,
+							SelectedType = type
 						};
 			}
 		}
@@ -117,7 +118,10 @@ namespace NQueueStuffer.UI.View
 		private void tbMessage_TextChanged(object sender, EventArgs e)
 		{
 			if (_tbMessageTextChangedProcessing)
+			{
 				_tbMessageIsDirty = true;
+				return;
+			}
 
 			var tb = sender as RichTextBox;
 			if (tb == null)
