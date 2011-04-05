@@ -34,7 +34,7 @@ namespace NQueueStuffer.UI.View
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
 				var filename = openFileDialog1.FileName;
-				var controller = _container.Resolve<IQueueStufferController>();
+				var controller = new QueueStufferController(_container.Resolve<IAssemblyFetcher>());
 				var view = new QueueStufferView(controller, ConfigurationManager.AppSettings["defaultQueueName"], filename);
 				AddView(view);
 			}
@@ -208,6 +208,8 @@ namespace NQueueStuffer.UI.View
 			if (dispose)
 			{
 				child.Closed -= view_Closed;
+				child.Activated -= view_Activated;
+
 				if (child.Visible)
 					child.Close();
 				child.Dispose();

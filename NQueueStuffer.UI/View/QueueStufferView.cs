@@ -164,6 +164,9 @@ namespace NQueueStuffer.UI.View
 
 		public static void HighlightXml(RichTextBox rtb)
 		{
+			if (rtb.IsDisposed)
+				return;
+
 			int oldCursor = rtb.SelectionStart;
 			int k = 0;
 
