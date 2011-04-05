@@ -164,6 +164,7 @@ namespace NQueueStuffer.UI.View
 
 		public static void HighlightXml(RichTextBox rtb)
 		{
+			int oldCursor = rtb.SelectionStart;
 			int k = 0;
 
 			string str = rtb.Text;
@@ -275,6 +276,9 @@ namespace NQueueStuffer.UI.View
 
 
 			}
+
+			rtb.SelectionStart = Math.Min(oldCursor, rtb.TextLength-1);
+			rtb.SelectionLength = 0;
 		}
 	}
 }

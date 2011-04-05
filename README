@@ -31,8 +31,8 @@ You can repeat steps 2-5 any number of time, each time having new MDI child wind
 6. After editing all needed templates you can save them. All Message templates and queue 
 names will be saved into xml file along with assemblies. You will be able to load saved 
 configuration anytime.
+7. You can also run batch execution of all opened windows by clicking "play" button on toolbox. 
+In popup opened you can set delay between messages in seconds.
 
 PS: You can change the default queue name by setting the defaultQueueName appsetting
 
-TODO:
- - Need create batch function to allow batched message stuffing.
