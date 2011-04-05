@@ -345,6 +345,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
     }
@@ -711,7 +724,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:NQueueStuffer.Setup"
         "ProductCode" = "8:{6096A918-C19E-4C0D-BAA6-B2A114ECA3F2}"
-        "PackageCode" = "8:{0FF307F4-B5C0-4716-A87A-9A01FACCBD62}"
+        "PackageCode" = "8:{27AD84FC-ABBA-477A-AEE9-1EC8835C45CC}"
         "UpgradeCode" = "8:{96473A1B-84FD-4759-A910-E3B19D37FEDE}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

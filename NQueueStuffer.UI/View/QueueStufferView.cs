@@ -51,7 +51,16 @@ namespace NQueueStuffer.UI.View
 
 		private void btnSend_Click(object sender, EventArgs e)
 		{
-			_controller.StuffMessageToQueue(tbMessage.Text, tbQueueName.Text);
+			try
+			{
+				_controller.StuffMessageToQueue(tbMessage.Text, tbQueueName.Text);
+				SetStatus(String.Format("Message {0} stuffed into queue {1} successfully.", listBoxMessageTypes.SelectedValue, tbQueueName.Text));
+			}
+			catch (Exception exception)
+			{
+				SetStatus(String.Format("Error stuffing {0} message into queue {1}: {2}", listBoxMessageTypes.SelectedValue, tbQueueName.Text, exception.Message));
+			}
+
 		}
 
 		private void listBoxMessageTypes_SelectedIndexChanged(object sender, EventArgs e)
