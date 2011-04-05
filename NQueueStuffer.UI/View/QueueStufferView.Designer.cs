@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QueueStufferView));
 			this.tbMessage = new System.Windows.Forms.RichTextBox();
 			this.btnSend = new System.Windows.Forms.Button();
 			this.tbQueueName = new System.Windows.Forms.TextBox();
@@ -37,6 +39,7 @@
 			this.listBoxMessageTypes = new System.Windows.Forms.ListBox();
 			this.lblStatus = new System.Windows.Forms.Label();
 			this.checkLockSelection = new System.Windows.Forms.CheckBox();
+			this.tbMessageTimer = new System.Windows.Forms.Timer(this.components);
 			this.SuspendLayout();
 			// 
 			// tbMessage
@@ -128,6 +131,10 @@
 			this.checkLockSelection.UseVisualStyleBackColor = true;
 			this.checkLockSelection.CheckStateChanged += new System.EventHandler(this.checkLockSelection_CheckStateChanged);
 			// 
+			// tbMessageTimer
+			// 
+			this.tbMessageTimer.Tick += new System.EventHandler(this.tbMessageTimer_Tick);
+			// 
 			// QueueStufferView
 			// 
 			this.AllowDrop = true;
@@ -142,7 +149,9 @@
 			this.Controls.Add(this.tbQueueName);
 			this.Controls.Add(this.btnSend);
 			this.Controls.Add(this.tbMessage);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "QueueStufferView";
+			this.ShowInTaskbar = false;
 			this.Text = "NQueueStuffer";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.QueueStufferView_DragDrop);
@@ -163,6 +172,7 @@
         private System.Windows.Forms.ListBox listBoxMessageTypes;
         private System.Windows.Forms.Label lblStatus;
 		private System.Windows.Forms.CheckBox checkLockSelection;
+		private System.Windows.Forms.Timer tbMessageTimer;
     }
 }
 

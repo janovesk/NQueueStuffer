@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using NQueueStuffer.UI.Controller;
 
@@ -9,10 +10,17 @@ namespace NQueueStuffer.UI.View
 	{
 		private IQueueStufferController _controller;
 		private string _assemblyFile = null;
+		private bool _tbMessageTextChangedProcessing = false;
+		private const float MessageUpdateInterval = 1.5f;
+		private DateTime _lastMessageUpdateTime = DateTime.MaxValue;
+
+		#region Ctors
 
 		public QueueStufferView(IQueueStufferController controller, NqsSettingItem settingItem)
 		{
 			InitializeComponent();
+
+			tbMessageTimer.Start();
 
 			_assemblyFile = settingItem.AssemblyPath;
 			_controller = controller;
@@ -24,51 +32,28 @@ namespace NQueueStuffer.UI.View
 			{
 				checkLockSelection.CheckState = CheckState.Checked;
 			}
-
+			SetupTitle();
+			tbMessage_TextChanged(tbMessage, EventArgs.Empty);
 		}
 
 		public QueueStufferView(IQueueStufferController controller, string defaultQueueName, string assemblyFile)
 		{
 			InitializeComponent();
 
+			tbMessageTimer.Start();
+
 			_assemblyFile = assemblyFile;
 			tbQueueName.Text = defaultQueueName;
 			_controller = controller;
 			_controller.Initialize(this);
 			_controller.GetTypesFromAssembly(assemblyFile);
+			SetupTitle();
+			tbMessage_TextChanged(tbMessage, EventArgs.Empty);
 		}
 
-		private void btnLoad_Click(object sender, EventArgs e)
-		{
-			openFileDialog1.Filter = "Dll files (*.dll)|*.dll";
-			if (openFileDialog1.ShowDialog() == DialogResult.OK)
-			{
-				var filename = openFileDialog1.FileName;
-				_assemblyFile = filename;
-				_controller.GetTypesFromAssembly(filename);
-			}
-		}
+		#endregion
 
-		private void btnSend_Click(object sender, EventArgs e)
-		{
-			try
-			{
-				_controller.StuffMessageToQueue(tbMessage.Text, tbQueueName.Text);
-				SetStatus(String.Format("Message {0} stuffed into queue {1} successfully.", listBoxMessageTypes.SelectedValue, tbQueueName.Text));
-			}
-			catch (Exception exception)
-			{
-				SetStatus(String.Format("Error stuffing {0} message into queue {1}: {2}", listBoxMessageTypes.SelectedValue, tbQueueName.Text, exception.Message));
-			}
-
-		}
-
-		private void listBoxMessageTypes_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			var messageType = (Type)listBoxMessageTypes.SelectedItem;
-
-			_controller.MessageTypeSelectionChanged(messageType);
-		}
+		#region Public interface
 
 		public void SetMessagesTypes(Type[] types, Type selectedType = null)
 		{
@@ -119,9 +104,56 @@ namespace NQueueStuffer.UI.View
 			}
 		}
 
+		public bool MessageIsDirty
+		{
+			get { return (DateTime.Now - _lastMessageUpdateTime).TotalMilliseconds > 1000*MessageUpdateInterval; }
+		}
+
 		public void SetStatus(string message)
 		{
 			lblStatus.Text = message;
+		}
+
+		#endregion
+
+		#region Implementation
+
+		private void SetupTitle()
+		{
+			this.Text = Path.GetFileNameWithoutExtension(_assemblyFile);
+		}
+
+		private void btnLoad_Click(object sender, EventArgs e)
+		{
+			openFileDialog1.Filter = "Dll files (*.dll)|*.dll";
+			if (openFileDialog1.ShowDialog() == DialogResult.OK)
+			{
+				var filename = openFileDialog1.FileName;
+				_assemblyFile = filename;
+				_controller.GetTypesFromAssembly(filename);
+				SetupTitle();
+			}
+		}
+
+		private void btnSend_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				_controller.StuffMessageToQueue(tbMessage.Text, tbQueueName.Text);
+				SetStatus(String.Format("Message {0} stuffed into queue {1} successfully.", listBoxMessageTypes.SelectedValue, tbQueueName.Text));
+			}
+			catch (Exception exception)
+			{
+				SetStatus(String.Format("Error stuffing {0} message into queue {1}: {2}", listBoxMessageTypes.SelectedValue, tbQueueName.Text, exception.Message));
+			}
+
+		}
+
+		private void listBoxMessageTypes_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			var messageType = (Type)listBoxMessageTypes.SelectedItem;
+
+			_controller.MessageTypeSelectionChanged(messageType);
 		}
 
 		private void QueueStufferView_DragEnter(object sender, DragEventArgs e)
@@ -142,45 +174,37 @@ namespace NQueueStuffer.UI.View
 			}
 		}
 
-		private bool _tbMessageTextChangedProcessing = false;
-		private bool _tbMessageIsDirty = false;
+		private delegate void UpdateMessageColorsDelegate();
+		private void UpdateMessageColors()
+		{
+			if (InvokeRequired)
+			{
+				UpdateMessageColorsDelegate del = UpdateMessageColors;
+				Invoke(del);
+			}
+			else
+			{
+				_lastMessageUpdateTime = DateTime.MaxValue;
+				_tbMessageTextChangedProcessing = true;
+				HighlightXml(tbMessage);
+				_tbMessageTextChangedProcessing = false;
+			}
+		}
+
 		private void tbMessage_TextChanged(object sender, EventArgs e)
 		{
-			if (_tbMessageTextChangedProcessing)
-			{
-				_tbMessageIsDirty = true;
-				return;
-			}
-
-			var tb = sender as RichTextBox;
-			if (tb == null)
-				return;
-
-			_tbMessageTextChangedProcessing = true;
-
-			HighlightXml(tbMessage);
-
-			_tbMessageTextChangedProcessing = false;
-
-			if (_tbMessageIsDirty)
-			{
-				_tbMessageIsDirty = false;
-				tbMessage_TextChanged(sender, e);
-			}
+			if (!_tbMessageTextChangedProcessing)
+				_lastMessageUpdateTime = DateTime.Now;
 		}
 
-
-
-		protected enum SymbolPosition
+		private void checkLockSelection_CheckStateChanged(object sender, EventArgs e)
 		{
-			Unknown,
-			StartNodeName,
-			EndNode,
-			AttributeName,
-			AttributeValue,
-			NodeValue
+			bool enabled = checkLockSelection.CheckState != CheckState.Checked;
+			btnLoad.Enabled = enabled;
+			tbMessage.Enabled = enabled;
+			listBoxMessageTypes.Enabled = enabled;
+			tbQueueName.Enabled = enabled;
 		}
-
 
 		public class HighlightColors
 		{
@@ -197,6 +221,9 @@ namespace NQueueStuffer.UI.View
 				return;
 
 			int oldCursor = rtb.SelectionStart;
+			Color oldBackColor = rtb.SelectionBackColor;
+			rtb.SelectionBackColor = Color.Transparent;
+
 			int k = 0;
 
 			string str = rtb.Text;
@@ -311,15 +338,17 @@ namespace NQueueStuffer.UI.View
 
 			rtb.SelectionStart = Math.Min(oldCursor, rtb.TextLength-1);
 			rtb.SelectionLength = 0;
+			rtb.SelectionBackColor = oldBackColor;
 		}
 
-		private void checkLockSelection_CheckStateChanged(object sender, EventArgs e)
+		#endregion
+
+		private void tbMessageTimer_Tick(object sender, EventArgs e)
 		{
-			bool enabled = checkLockSelection.CheckState != CheckState.Checked;
-			btnLoad.Enabled = enabled;
-			tbMessage.Enabled = enabled;
-			listBoxMessageTypes.Enabled = enabled;
-			tbQueueName.Enabled = enabled;
+			if (MessageIsDirty)
+			{
+				UpdateMessageColors();
+			}
 		}
 	}
 }

@@ -724,7 +724,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:NQueueStuffer.Setup"
         "ProductCode" = "8:{6096A918-C19E-4C0D-BAA6-B2A114ECA3F2}"
-        "PackageCode" = "8:{27AD84FC-ABBA-477A-AEE9-1EC8835C45CC}"
+        "PackageCode" = "8:{8E602652-6A64-4D15-8FB5-EA1D94136782}"
         "UpgradeCode" = "8:{96473A1B-84FD-4759-A910-E3B19D37FEDE}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

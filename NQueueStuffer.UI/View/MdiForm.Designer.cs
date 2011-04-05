@@ -36,11 +36,11 @@
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.startBatchToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-			this.startBatchToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -114,6 +114,16 @@
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
 			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
 			// 
+			// startBatchToolStripButton
+			// 
+			this.startBatchToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.startBatchToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("startBatchToolStripButton.Image")));
+			this.startBatchToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.startBatchToolStripButton.Name = "startBatchToolStripButton";
+			this.startBatchToolStripButton.Size = new System.Drawing.Size(23, 22);
+			this.startBatchToolStripButton.Text = "Start execution of all opened windows in batch.";
+			this.startBatchToolStripButton.Click += new System.EventHandler(this.startBatchToolStripButton_Click);
+			// 
 			// openFileDialog1
 			// 
 			this.openFileDialog1.FileName = "openFileDialog1";
@@ -133,16 +143,6 @@
 			this.lblStatus.Name = "lblStatus";
 			this.lblStatus.Size = new System.Drawing.Size(0, 17);
 			// 
-			// startBatchToolStripButton
-			// 
-			this.startBatchToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.startBatchToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("startBatchToolStripButton.Image")));
-			this.startBatchToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.startBatchToolStripButton.Name = "startBatchToolStripButton";
-			this.startBatchToolStripButton.Size = new System.Drawing.Size(23, 22);
-			this.startBatchToolStripButton.Text = "Start execution of all opened windows in batch.";
-			this.startBatchToolStripButton.Click += new System.EventHandler(this.startBatchToolStripButton_Click);
-			// 
 			// MdiForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -150,9 +150,10 @@
 			this.ClientSize = new System.Drawing.Size(666, 362);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.toolStrip1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.IsMdiContainer = true;
 			this.Name = "MdiForm";
-			this.Text = "MdiForm";
+			this.Text = "NQueueStuffer";
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
 			this.statusStrip1.ResumeLayout(false);
