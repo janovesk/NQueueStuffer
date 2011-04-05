@@ -36,6 +36,7 @@
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.listBoxMessageTypes = new System.Windows.Forms.ListBox();
 			this.lblStatus = new System.Windows.Forms.Label();
+			this.checkLockSelection = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// tbMessage
@@ -116,12 +117,24 @@
 			this.lblStatus.Size = new System.Drawing.Size(0, 13);
 			this.lblStatus.TabIndex = 6;
 			// 
+			// checkLockSelection
+			// 
+			this.checkLockSelection.AutoSize = true;
+			this.checkLockSelection.Location = new System.Drawing.Point(225, 25);
+			this.checkLockSelection.Name = "checkLockSelection";
+			this.checkLockSelection.Size = new System.Drawing.Size(131, 17);
+			this.checkLockSelection.TabIndex = 7;
+			this.checkLockSelection.Text = "Lock current selection";
+			this.checkLockSelection.UseVisualStyleBackColor = true;
+			this.checkLockSelection.CheckStateChanged += new System.EventHandler(this.checkLockSelection_CheckStateChanged);
+			// 
 			// QueueStufferView
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(478, 655);
+			this.Controls.Add(this.checkLockSelection);
 			this.Controls.Add(this.lblStatus);
 			this.Controls.Add(this.listBoxMessageTypes);
 			this.Controls.Add(this.btnLoad);
@@ -149,6 +162,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ListBox listBoxMessageTypes;
         private System.Windows.Forms.Label lblStatus;
+		private System.Windows.Forms.CheckBox checkLockSelection;
     }
 }
 

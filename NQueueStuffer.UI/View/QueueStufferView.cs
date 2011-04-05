@@ -20,6 +20,11 @@ namespace NQueueStuffer.UI.View
 			_controller.GetTypesFromAssembly(settingItem.AssemblyPath, settingItem.SelectedTypeName);
 			tbQueueName.Text = settingItem.QueueName;
 			tbMessage.Text = settingItem.MessageContent;
+			if (settingItem.IsLocked.HasValue  && settingItem.IsLocked.Value)
+			{
+				checkLockSelection.CheckState = CheckState.Checked;
+			}
+
 		}
 
 		public QueueStufferView(IQueueStufferController controller, string defaultQueueName, string assemblyFile)
@@ -79,7 +84,7 @@ namespace NQueueStuffer.UI.View
 			get
 			{
 				var type = listBoxMessageTypes.SelectedItem as Type;
-				return new NqsSettingItem()
+				var item = new NqsSettingItem()
 						{
 							AssemblyPath = _assemblyFile,
 							MessageContent = tbMessage.Text,
@@ -87,6 +92,21 @@ namespace NQueueStuffer.UI.View
 							SelectedTypeName = type != null ? type.Name : null,
 							SelectedType = type
 						};
+
+				switch(checkLockSelection.CheckState)
+				{
+					case CheckState.Checked:
+						item.IsLocked = true;
+						break;
+					case CheckState.Unchecked:
+						item.IsLocked = false;
+						break;
+					case CheckState.Indeterminate:
+						item.IsLocked = null;
+						break;
+				}
+
+				return item;
 			}
 		}
 
@@ -282,6 +302,15 @@ namespace NQueueStuffer.UI.View
 
 			rtb.SelectionStart = Math.Min(oldCursor, rtb.TextLength-1);
 			rtb.SelectionLength = 0;
+		}
+
+		private void checkLockSelection_CheckStateChanged(object sender, EventArgs e)
+		{
+			bool enabled = checkLockSelection.CheckState != CheckState.Checked;
+			btnLoad.Enabled = enabled;
+			tbMessage.Enabled = enabled;
+			listBoxMessageTypes.Enabled = enabled;
+			tbQueueName.Enabled = enabled;
 		}
 	}
 }
