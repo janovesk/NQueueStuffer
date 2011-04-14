@@ -13,8 +13,12 @@ application or unit test to make it happen.
 NQueueStuffer was started by Jan Ove Skogheim Olsen. 
 Feel free to drop me a message(bugs, requests etc) at janovesk(a)pvv.org or twitter: janovesk
 
+Contributors:
+- janovesk with basic first version
+- netspark with several bug fixes, interface cleanup, save/load of configurations and cool new MDI interface!
+
 Installation instructions
-1. Get source: git clone git://github.com/netspark/NQueueStuffer.git
+1. Get source: git clone git://github.com/janovesk/NQueueStuffer.git
 2. Compile NQueueStuffer.sln, either msbuild or Visual Studio 2010.
 
 Usage instructions
