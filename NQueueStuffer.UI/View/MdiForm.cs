@@ -10,6 +10,7 @@ using System.Text;
 using System.Windows.Forms;
 using Castle.Windsor;
 using NQueueStuffer.Core;
+using NQueueStuffer.Core.MSMQ;
 using NQueueStuffer.UI.Controller;
 
 namespace NQueueStuffer.UI.View
@@ -34,7 +35,7 @@ namespace NQueueStuffer.UI.View
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
 				var filename = openFileDialog1.FileName;
-				var controller = new QueueStufferController(_container.Resolve<IAssemblyFetcher>());
+				var controller = new QueueStufferController(_container.Resolve<IAssemblyFetcher>(),_container.Resolve<IQueueFinder>());
 				var view = new QueueStufferView(controller, ConfigurationManager.AppSettings["defaultQueueName"], filename);
 				AddView(view);
 			}
@@ -71,7 +72,7 @@ namespace NQueueStuffer.UI.View
 				{
 					try
 					{
-						var controller = new QueueStufferController(_container.Resolve<IAssemblyFetcher>());//_container.Resolve<IQueueStufferController>();
+						var controller = new QueueStufferController(_container.Resolve<IAssemblyFetcher>(), _container.Resolve<IQueueFinder>());//_container.Resolve<IQueueStufferController>();
 						var view = new QueueStufferView(controller, settingItem);
 						AddView(view);
 					}

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NQueueStuffer.Core;
 using NQueueStuffer.UI.View;
+using NQueueStuffer.Core.MSMQ;
 
 namespace NQueueStuffer.UI.Controller
 {
@@ -13,12 +15,13 @@ namespace NQueueStuffer.UI.Controller
         private IMessageStuffer _messageStuffer;
         private VisualSerializer _visualSerializer;
         private Type _messageType;
+        private IQueueFinder _queueFinder;
 
-        public QueueStufferController(IAssemblyFetcher assemblyFetcher)
+        public QueueStufferController(IAssemblyFetcher assemblyFetcher, IQueueFinder queueFinder)
         {
             _assemblyFetcher = assemblyFetcher;
+            _queueFinder = queueFinder;
         }
-
 
         public void Initialize(IQueueStufferView view)
         {
@@ -31,6 +34,11 @@ namespace NQueueStuffer.UI.Controller
             var types = _assemblyFetcher.GetTypesFromAssembly(assemblyFilename);
         	var selected = types.FirstOrDefault(t => t.Name == selectedtypeName);
             _view.SetMessagesTypes(types, selected);
+        }
+
+        public List<string> GetQueueNames()
+        {
+            return _queueFinder.GetLocalQueueNames();
         }
 
         public void MessageTypeSelectionChanged(Type messageType)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -13,6 +14,7 @@ namespace NQueueStuffer.UI.View
 		private bool _tbMessageTextChangedProcessing = false;
 		private const float MessageUpdateInterval = 1.5f;
 		private DateTime _lastMessageUpdateTime = DateTime.MaxValue;
+	    private List<string> _queueNames;
 
 		#region Ctors
 
@@ -34,6 +36,7 @@ namespace NQueueStuffer.UI.View
 			}
 			SetupTitle();
 			tbMessage_TextChanged(tbMessage, EventArgs.Empty);
+            PopulateQueueNames();
 		}
 
 		public QueueStufferView(IQueueStufferController controller, string defaultQueueName, string assemblyFile)
@@ -49,6 +52,7 @@ namespace NQueueStuffer.UI.View
 			_controller.GetTypesFromAssembly(assemblyFile);
 			SetupTitle();
 			tbMessage_TextChanged(tbMessage, EventArgs.Empty);
+            PopulateQueueNames();
 		}
 
 		#endregion
@@ -117,6 +121,18 @@ namespace NQueueStuffer.UI.View
 		#endregion
 
 		#region Implementation
+
+        private void PopulateQueueNames()
+        {
+            _queueNames = _controller.GetQueueNames();
+
+            cmbQueueName.Items.Clear();
+
+            foreach (string queueName in _queueNames)
+            {
+                cmbQueueName.Items.Add(queueName);
+            }
+        }
 
 		private void SetupTitle()
 		{
@@ -350,5 +366,25 @@ namespace NQueueStuffer.UI.View
 				UpdateMessageColors();
 			}
 		}
+
+        private void cmbQueueName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            tbQueueName.Text = ((ComboBox) sender).SelectedItem.ToString();
+        }
+
+        private void btnRefreshQueues_Click(object sender, EventArgs e)
+        {
+            string selectedQueue = tbQueueName.Text;
+            PopulateQueueNames();
+
+            if(_queueNames.Contains(selectedQueue))
+            {
+                tbQueueName.Text = selectedQueue;
+            }
+            else
+            {
+                tbQueueName.Text = string.Empty;
+            }
+        }
 	}
 }
