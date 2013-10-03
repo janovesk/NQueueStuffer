@@ -27,7 +27,7 @@ namespace NQueueStuffer.Core
             var assemblyDirectory = Path.GetDirectoryName(args.RequestingAssembly.Location);
             var assemblyName = args.Name.Split(new string[] { "," }, StringSplitOptions.None)[0];
             var assemblyFilePath = Path.Combine(assemblyDirectory, assemblyName + ".dll");
-            var assembly = Assembly.LoadFrom(Path.Combine(assemblyFilePath));
+            var assembly = Assembly.Load(System.IO.File.ReadAllBytes(Path.Combine(assemblyFilePath)));
             return assembly;
         }
 
