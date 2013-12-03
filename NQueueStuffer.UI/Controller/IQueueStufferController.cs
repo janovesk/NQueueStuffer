@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NQueueStuffer.UI.View;
 
 namespace NQueueStuffer.UI.Controller
@@ -9,5 +10,6 @@ namespace NQueueStuffer.UI.Controller
         void GetTypesFromAssembly(string assemblyFilename, string selectedtypeName = null);
         void MessageTypeSelectionChanged(Type messageType);
         void StuffMessageToQueue(string serializedMessageToStuff, string queueName);
+        List<string> GetQueueNames();
     }
 }

@@ -4,6 +4,7 @@
 *.sln.cache
 *.suo
 *.csproj.user
+*.DotSettings.User
 
 # Resharper
 *[Rr]e[Ss]harper.user
