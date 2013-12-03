@@ -11,7 +11,7 @@ namespace NQueueStuffer.Core
         public Type[] GetTypesFromAssembly(string assemblyFilename)
         {
             AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(AssemblyResolve);
-            var assembly = Assembly.Load(System.IO.File.ReadAllBytes(assemblyFilename));
+            var assembly = Assembly.LoadFrom(assemblyFilename);
             var types = GetMessageTypesFromAssembly(assembly);
             AppDomain.CurrentDomain.AssemblyResolve -= new ResolveEventHandler(AssemblyResolve);
 
@@ -30,7 +30,7 @@ namespace NQueueStuffer.Core
             {
                 assemblyFilePath = Path.Combine(assemblyDirectory, assemblyName + ".exe");
             }
-            var assembly = Assembly.Load(System.IO.File.ReadAllBytes(Path.Combine(assemblyFilePath)));
+            var assembly = Assembly.LoadFrom(Path.Combine(assemblyFilePath));
             return assembly;
         }
 
